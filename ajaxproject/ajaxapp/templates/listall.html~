@@ -1,0 +1,37 @@
+
+
+{% for i in person|get_range %}
+{{i}}
+{% endfor %}
+
+
+<table>
+{% for person in persons %}
+<tr>
+<td> {{person.name}} </td>
+<td> {{person.email}} </td>
+<td> {{person.age}} </td>
+<td> <a href="#" onclick="delete_person({{person.id}});">delete</a> </td>
+</tr>
+{%endfor%}
+</table>
+
+<script>
+function delete_person(person_id){
+
+if (window.XMLHttpRequest) {
+      // IE7+, Firefox, Chrome, Opera, Safari
+      ajaxRequest=new XMLHttpRequest();
+   } else {
+      // IE6, IE5
+      ajaxRequest=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+
+url = "delete/?id="+person_id
+ajaxRequest.open("GET",url, true);
+ajaxRequest.send();
+
+
+}
+</script>
+

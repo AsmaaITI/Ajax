@@ -1,0 +1,71 @@
+<html>
+<head>
+<script type="text/javascript">
+function myAwesomeFunc(){
+document.getElementById("inputtext").addEventListener('keyup', inputTextKeyUp); 
+}
+
+
+function inputTextKeyUp(){
+serachvalue = document.getElementById("inputtext").value;
+
+
+   if (window.XMLHttpRequest) {
+      // IE7+, Firefox, Chrome, Opera, Safari
+      ajaxRequest=new XMLHttpRequest();
+   } else {
+      // IE6, IE5
+      ajaxRequest=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+
+
+ajaxRequest.open("GET","ajax/?q="+serachvalue , true);
+ajaxRequest.send();
+
+
+ajaxRequest.onreadystatechange = function() {
+      if ((this.readyState === 4) && (this.status === 200)) {
+         if (this.responseText !== null) {
+		//using text            
+		//document.getElementById('results').innerHTML=this.responseText;
+		
+		//using json
+		response = JSON.parse(this.responseText)
+		document.getElementById('results').innerHTML=""
+		for (i in response['names']) 
+			document.getElementById('results').innerHTML+=response['names'][i] +'<br>';
+
+		//using xml not working
+/*
+		response = JSON.parse(this.responseXML)
+		names = response.getElementByTagName('name')
+		document.getElementById('results').innerHTML=""
+		for (i in names) 
+			document.getElementById('results').innerHTML+= names[i].childNodes[0].nodeValue+'<br>';
+*/
+         }
+      }
+   }
+
+}
+
+window.onload = myAwesomeFunc;
+
+
+</script>
+
+
+</head>
+
+
+<body>
+
+<form>
+<input id="inputtext" type="text" placeholder="search here"/>
+<div id="results">
+</form>
+
+
+
+</body>
+</html>
